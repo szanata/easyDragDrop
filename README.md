@@ -21,4 +21,5 @@ A simple drag'n'drop jquery extension
 # important notes
 
   * This plugin has not "position:relative parent bug", like the draggable extension on jQuery-UI. It works with "position:fixed" only.
-  * With this code you don't drag the draggable element itself, you drag arround a given HTMLNode. But if you need this behavior, you can move the draggable element to the "dragNode" on the "dragStart" event. Note that in every method passed to this extension you can acess the "dragNode".
+  * With this code you don't drag the draggable element itself, you drag around a given HTMLNode. But if you need this behavior, you can move the draggable element to the "dragNode" on the "dragStart" event. Note that in every method passed to this extension you can acess the "dragNode".
+  * When the dragNode is being dragged around, it have the ".is-dragging" css class on it.
