@@ -11,6 +11,7 @@ A simple drag'n'drop jquery extension
 
   * **dragNode**: <jQuery|HTMLElement|String> the drag node to be used as a "drag element". If the given node is not present in the DOM tree, it will be appended.
   * **dragStart**: <Function(jQuery.event,$(dragNode))> a function called when drag starts, the "this" inside this function refers to draggable element.
+  * **dragEnd**: <Function(jQuery.event,$(dragNode))> a function called when drag ends,the "this" inside this function refers to draggable element. This function will be called after "target.drop".
   * **bindType**: <String['live','bind']> the way the event will be bound to drag element.
   * **targetSet**: <Array<Object>> the possible drop targets for this draggable element.
   * **targetSet.target**: <jQuery|HTMLElement|String> some droppable area for this draggable element.
