@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <meta http-equiv="Content-Language" content="pt-BR" />
+
+    <title>easyDragDrop example</title>
+    
+    <style type="text/css">
+      body{
+        margin:0px;
+        font-family:arial;
+        background-color:#222;
+      }
+      #droppable1,
+      #droppable2,
+      #droppable3{
+        position:absolute;
+        border-radius:4px;
+        background:#eee;
+        width:200px;
+        height:200px;
+        box-shadow:inset 0px 0px 10px #000;
+      }
+      #droppable1{
+        top:10px;
+        left:10px;
+        border:2px solid #E0601B;
+      }
+      #droppable2{
+        top:10px;
+        left:222px;
+        border:2px solid #E01BD9;
+      }
+      #droppable3{
+        top:10px;
+        left:434px;
+        border:2px solid #B5E01B;
+      }
+      #dragarea{
+        bottom:10px;
+        right:10px;
+        position:absolute;
+      }
+      #droppable3:after,
+      #droppable2:after,
+      #droppable1:after{
+        position:absolute;
+        width:200px;
+        margin-top:90px;
+        height:20px;
+        text-align:center;
+        content:'drop here';
+        color:#888;
+      }
+      .dragging-item,
+      .drag-item{
+        float:left;
+        width:100px;
+        height:100px;
+        border-radius:50px;
+        background:#E80000;
+        box-shadow:10px 10px 20px #000,inset 2px 2px 4px #fff, inset -5px -5px 10px 2px #111;
+        position:relative;
+      }
+      .dragging-item{
+        background:#6BF27D;
+      }
+      .dragging-item:before,
+      .drag-item:before{
+        position:absolute;
+        top:130px;
+        left:130px;
+        width:20px;
+        margin:-100px 0px 0px -100px;
+        height:20px;
+        border-radius:100px;
+        background:#fff;
+        content:'';
+        opacity:.30;
+        box-shadow:5px 5px 35px 20px #fff;
+      }
+      .dragging-item:after,
+      .drag-item:after{
+        position:absolute;
+        top:130px;
+        left:130px;
+        width:20px;
+        margin:-100px 0px 0px -100px;
+        height:20px;
+        border-radius:100px;
+        background:#fff;
+        content:'';
+        opacity:.80;
+        box-shadow:0px 0px 5px #fff;
+      }
+    </style>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="jquery.easyDragDrop.js"></script>
+  </head>
+  <body>
+    <div id="droppable1"></div>
+    <div id="droppable2"></div>
+    <div id="droppable3"></div>
+    <div id="dragarea">
+      <div class="drag-item"></div>
+      <div class="drag-item"></div>
+      <div class="drag-item"></div>
+      <div class="drag-item"></div>
+      <div class="drag-item"></div>
+      <div class="drag-item"></div>
+      <div class="drag-item"></div>
+      <div class="drag-item"></div>
+      <div class="drag-item"></div>
+    </div>
+    <script>
+      $(function (){
+        $('.drag-item').easyDragDrop({
+          dragNode:$('<div class="dragging-item"></div>'),
+          targetSet:[{
+            target:'#droppable1',
+            drop:function (){
+              $(this).css('background','red')
+            } 
+          },{
+            target:'#droppable2',
+            drop:function (){
+              $(this).css('background','purple')
+            } 
+          },{
+            target:'#droppable3',
+            drop:function (){
+              $(this).css('background','green')
+            } 
+          }]
+        })
+      });
+    </script>
+  </body>
+</html>
