@@ -62,13 +62,13 @@
         dragNode: $(),
         bindType: 'bind',
         targetSet: [],
-        distance: 5,
+        distance: 5
       }, 
       settings = $.extend({}, defaults, options);
     
     settings.dragNode = $(settings.dragNode);
     
-    if (settings.distance < 5){settings.distance = 5;}
+    settings.distance = settings.distance < 5 ? 5 : settings.distance;
     
     $.each(settings.targetSet, function (i, t) {
       t.target = $(t.target);
@@ -93,7 +93,7 @@
         top: y + settings.distance + 'px',
         left: e.pageX + settings.distance + 'px',
         zIndex: 99999,
-        display: 'block',
+        display: 'block'
       }).addClass('is-dragging');
       $('body').css('cursor','move');
       settings.dragStart.call(this, e, settings.dragNode);
