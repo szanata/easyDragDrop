@@ -1,7 +1,7 @@
 ﻿/**
  * jquery.easyDrapDrop <http://github.com/madeinstefano/easyDragDrop>
  * 
- * @version 1.1
+ * @version 1.2
  * 
  * @licensed MIT <see below>
  * @licensed GPL <see below>
@@ -60,10 +60,12 @@
         dragStart: function () { },
         dragEnd: function () { },
         dragNode: $(),
-        //bindType: 'bind',
         targetSet: [],
         distance: 5
       }, 
+      isF = function (o) {
+        return typeof o === 'function';
+      },
       settings = $.extend({}, defaults, options);
     
     settings.dragNode = $(settings.dragNode);
@@ -72,9 +74,9 @@
     
     $.each(settings.targetSet, function (i, t) {
       t.target = $(t.target);
-      t.targetEnter = t.targetEnter || function (){};
-      t.targetLeave = t.targetLeave || function (){};
-      t.drop = t.drop || function (){};
+      t.targetEnter = isF(t.targetEnter) ? t.targetEnter : function (){};
+      t.targetLeave = isF(t.targetLeave) ? t.targetLeave : function (){};
+      t.drop = isF(t.drop) ? t.drop : function (){};
     });
 
     if (settings.dragNode.size() > 1) {
@@ -85,11 +87,12 @@
     }
     settings.dragNode.hide().addClass('drag-node');
 
-	$(document).on('mousedown.drag',$(this).selector, function (e) {
+    $(document).on('mousedown.drag', $(this).selector, function (e) {
       e.preventDefault();
       var 
-		y = e.pageY - $(window).scrollTop(), //crossbrowser adjust
-		target = $(e.target);
+        y = e.pageY - $(window).scrollTop(), //crossbrowser adjust
+        dragTarget = $(this);
+      
       settings.dragNode.css({
         position: 'fixed',
         top: y + settings.distance + 'px',
@@ -97,26 +100,28 @@
         zIndex: 99999,
         display: 'block'
       }).addClass('is-dragging');
+      
       $('body').css('cursor','move');
-      settings.dragStart.call(this, e, settings.dragNode, target);
+      settings.dragStart.call(this, e, settings.dragNode, dragTarget);
 
-      $.each(settings.targetSet, function (i, t) {
+      settings.targetSet.forEach(function (item) {
+        
         var entered = false;
-        t.target.on('mouseenter.drop', function (e) {
+        $(item.target).on('mouseenter.drop', function (e) {
           if (settings.dragNode.hasClass('is-dragging')) {
-            t.targetEnter.call(this, e, settings.dragNode, target);
+            item.targetEnter.call(this, e, settings.dragNode, dragTarget);
             entered = true;
           }
         }).on('mouseleave.drop afterdrop', function (e) {
           if (entered){
-            t.targetLeave.call(this, e, settings.dragNode, target);
+            item.targetLeave.call(this, e, settings.dragNode, dragTarget);
             entered = false;
           }
         }).on('mouseup.drop', function (e) {
           if (settings.dragNode.hasClass('is-dragging')) {
-            t.targetLeave.call(this, e);
+            item.targetLeave.call(this, e);
             entered = false;
-            t.drop.call(this, e, settings.dragNode, target);
+            item.drop.call(this, e, settings.dragNode, dragTarget);
             // prevent multiple mouseup triggering
             e.stopImmediatePropagation();
             $(window).trigger('mouseup.drag');
@@ -132,10 +137,10 @@
         });
       }).bind('mouseup.drag', function () {
         $(window).unbind('mousemove.drag mouseup.drag');
-        settings.dragEnd.call(this, e, settings.dragNode, target);
+        settings.dragEnd.call(this, e, settings.dragNode, dragTarget);
         $('body').css('cursor','auto');
-        $.each(settings.targetSet, function (i, t) {
-          t.target.off('mouseenter.drop mouseout.drop mouseup.drop afterdrop');
+        settings.targetSet.forEach(function (item) {
+          item.target.off('mouseenter.drop mouseout.drop mouseup.drop afterdrop');
         });
         settings.dragNode.hide().removeClass('is-dragging');
       });

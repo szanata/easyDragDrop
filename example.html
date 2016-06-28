@@ -106,7 +106,7 @@
     <div id="droppable2"></div>
     <div id="droppable3"></div>
     <div id="dragarea">
-      <div class="drag-item"><h2>aaaaaaaaaaaaaa</h2></div>
+      <div class="drag-item"></div>
       <div class="drag-item"></div>
       <div class="drag-item"></div>
       <div class="drag-item"></div>
@@ -121,8 +121,13 @@
         $('.drag-item').easyDragDrop({
           dragNode:$('<div class="dragging-item"></div>'),
           targetSet:[{
+            target:'.drag-item',
+            drop:function (e, drag, startElement) {
+              $(this).css('background','blue');
+            } 
+          },{
             target:'#droppable1',
-            drop:function (){
+            drop:function (e, drag, startElement){
               $(this).css('background','red')
             } 
           },{
